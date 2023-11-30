@@ -1,7 +1,15 @@
 from django.db import models
 
 # Create your models here.
-class UserComments(models.Model):
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    comment = models.CharField(max_length=1000)
+class Booking(models.Model):
+    ID = models.AutoField(primary_key=True)
+    Name = models.CharField(max_length=255)
+    No_of_guests = models.IntegerField(6) 
+    BookingDate = models.DateTimeField()
+    
+    
+class Menu(models.Model):
+    ID = models.AutoField(primary_key=True)
+    Title = models.CharField(max_length=255)
+    Price = models.DecimalField(max_digits=10, decimal_places=2)
+    Inventory = models.IntegerField()
