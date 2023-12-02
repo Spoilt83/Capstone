@@ -17,14 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from FinalApp import views
 
 router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)
+# router.register(r'tables', views.BookingViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('FinalApp.urls')),
+    path('restaurant/', include('FinalApp.urls')),
     
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    
+    # path('restaurant/booking', include(router.urls)),
 ]
