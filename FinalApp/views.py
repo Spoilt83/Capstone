@@ -39,14 +39,21 @@ class UserViewSet(APIView):
         return Response("User deleted")
 
 
-class bookingview(APIView):
-    
-    def get(self, request):
-        booking = Booking.objects.all()
-        serializer = BookingSerializer(booking, many=True)
-        return Response(serializer.data)
+class BookingViewSet(APIView):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
 
+    def post(self, request):
+        serializer = BookingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
+    def delete(self, request, pk):
+        booking = Booking.objects.get(id=pk)
+        booking.delete()
+        return Response("Booking deleted")
         
 class MenuItemView(ListCreateAPIView):
     queryset = Menu.objects.all()
