@@ -25,4 +25,4 @@ class Menu(models.Model):
         indexes = [models.Index(fields=['Price']),]
         
     def __str__(self):
-        return f'{self.Title}'
+        return f'{self.Title} : {self.Price}'

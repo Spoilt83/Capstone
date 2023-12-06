@@ -1,16 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-
 from .models import Booking, Menu
 from .serializers import BookingSerializer, MenuSerializer, UserSerializer
 from django.contrib.auth.models import User
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+
 
 class UserViewSet(APIView):
     def get(self, request):
@@ -42,18 +42,25 @@ class UserViewSet(APIView):
 class BookingViewSet(ListCreateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated]
 
 class SingleBookingViewSet(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     
         
-class MenuItemView(ListCreateAPIView):
+class MenuItemView(generics.ListCreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+    permission_classes = [IsAuthenticated]
     
 class SingleMenuItemView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+    
+@api_view()
+@permission_classes([IsAuthenticated])   
+def msg(request):
+    return Response({"message":"This view is protected"})
     
  
